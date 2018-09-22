@@ -18,8 +18,12 @@ class Nikui : public QMainWindow
 public:
    Nikui();
     ~Nikui();
+   bool loadFiles(const QStringList&);
+   void initializeView();
 
 private slots:
+   void prevPage();
+   void nextPage();
    void open();
    void zoomIn();
    void zoomOut();
@@ -31,12 +35,19 @@ private:
     void createActions();
     void createMenus();
     void updateActions();
+    void setImage(const QImage& newImage);
     void scaleImage(double factor);
     void adjustScrollBar(QScrollBar* scrollBar, double factor);
 
+    QImage currentImage;
     QLabel* imageLabel;
     QScrollArea* scrollArea;
+    std::vector<QImage> currentMangaFileList;
+    unsigned int currentMangaFilePos;
+    double scaleFactor;
 
+    QAction* prevPageAct;
+    QAction* nextPageAct;
     QAction* zoomInAct;
     QAction* zoomOutAct;
     QAction* normalSizeAct;

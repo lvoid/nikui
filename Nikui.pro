@@ -27,7 +27,8 @@ SOURCES += \
         nikui.cpp
 
 HEADERS += \
-        nikui.h
+        nikui.h \
+    content.h
 
 FORMS += \
         nikui.ui
