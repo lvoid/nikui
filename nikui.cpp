@@ -1,5 +1,4 @@
 #include <QtWidgets>
-
 #include "nikui.h"
 #include "ui_nikui.h"
 
@@ -16,6 +15,7 @@ Nikui::Nikui() :
     scrollArea->setBackgroundRole(QPalette::Dark);
     scrollArea->setWidget(imageLabel);
     scrollArea->setVisible(false);
+    scrollArea->setAlignment(Qt::AlignCenter); // make images appear in center
     setCentralWidget(scrollArea);
 
     createActions();
@@ -84,6 +84,8 @@ void Nikui::createActions()
 /* Store all user selected files for access */
 bool Nikui::loadFiles(const QStringList& fileNames)
 {
+    if(currentMangaFileList.size() > 0) currentMangaFileList.clear(); // user reopening - clear list
+
     QImage newImage;
     for(int file = 0; file < fileNames.size(); file++)
     {
