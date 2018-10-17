@@ -8,6 +8,9 @@ Nikui::Nikui() :
     imageLabel(new QLabel),
     scrollArea(new QScrollArea)
 {
+    widthFactor = 1.0;
+    heightFactor = 1.0;
+
     imageLabel->setBackgroundRole(QPalette::Base);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setScaledContents(true);
@@ -113,7 +116,10 @@ void Nikui::initializeView()
 void Nikui::setImage(const QImage& newImage)
 {
     currentImage = newImage;
-    imageLabel->setPixmap(QPixmap::fromImage(currentImage));
+    QPixmap pixmap = QPixmap::fromImage(currentImage);
+
+    imageLabel->clear();
+    imageLabel->setPixmap(pixmap.scaled(width() * widthFactor, height() * heightFactor, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     scaleFactor = 1.0;
 
     scrollArea->setVisible(true);
@@ -154,12 +160,16 @@ void Nikui::open()
 
 void Nikui::zoomIn()
 {
+    widthFactor *= 1.25;
+    heightFactor *= 1.25;
     scaleImage(1.25);
 }
 
 void Nikui::zoomOut()
 {
-    scaleImage(0.8);
+    widthFactor *= .9;
+    heightFactor *= .9;
+    scaleImage(0.9);
 }
 
 void Nikui::normalSize()
@@ -171,7 +181,6 @@ void Nikui::normalSize()
 void Nikui::fitToWindow()
 {
     bool fitToWindow = fitToWindowAct->isChecked();
-    scrollArea->setWidgetResizable(fitToWindow);
     if (!fitToWindow) normalSize();
 
     updateActions();
@@ -181,7 +190,7 @@ void Nikui::scaleImage(double factor)
 {
     Q_ASSERT(imageLabel->pixmap());
     scaleFactor *= factor;
-    imageLabel->resize(scaleFactor * imageLabel->pixmap()->size());
+    setImage(currentImage);
 
     adjustScrollBar(scrollArea->horizontalScrollBar(), factor);
     adjustScrollBar(scrollArea->verticalScrollBar(), factor);

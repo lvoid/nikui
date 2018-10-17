@@ -45,6 +45,9 @@ private:
     std::vector<QImage> currentMangaFileList;
     unsigned int currentMangaFilePos;
     double scaleFactor;
+    double widthFactor;
+    double heightFactor;
+    QPixmap thisPix;
 
     QAction* prevPageAct;
     QAction* nextPageAct;
