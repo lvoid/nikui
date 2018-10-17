@@ -205,6 +205,12 @@ void Nikui::adjustScrollBar(QScrollBar *scrollBar, double factor)
                             + ((factor - 1) * scrollBar->pageStep()/2)));
 }
 
+/* When window is resized, adjust image to fit new width and height */
+void Nikui::resizeEvent(QResizeEvent* event)
+{
+    setImage(currentImage);
+}
+
 void Nikui::about()
 {
     QMessageBox::about(this, tr("About nikui"),

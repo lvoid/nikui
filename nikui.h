@@ -38,6 +38,7 @@ private:
     void setImage(const QImage& newImage);
     void scaleImage(double factor);
     void adjustScrollBar(QScrollBar* scrollBar, double factor);
+    void resizeEvent(QResizeEvent* event);
 
     QImage currentImage;
     QLabel* imageLabel;
