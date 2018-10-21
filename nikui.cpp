@@ -136,6 +136,9 @@ void Nikui::prevPage()
         currentMangaFilePos--;
         setImage(currentMangaFileList.at(currentMangaFilePos));
     }
+
+    //reset scroll bar
+    scrollArea->verticalScrollBar()->setValue(0);
 }
 
 void Nikui::nextPage()
@@ -145,6 +148,9 @@ void Nikui::nextPage()
         currentMangaFilePos++;
         setImage(currentMangaFileList.at(currentMangaFilePos));
     }
+
+    //reset scroll bar
+    scrollArea->verticalScrollBar()->setValue(0);
 }
 
 void Nikui::open()
