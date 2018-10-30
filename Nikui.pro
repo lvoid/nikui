@@ -24,16 +24,24 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        nikui.cpp
+        nikui.cpp \
+    main.cpp \
+    nikui.cpp
 
 HEADERS += \
         nikui.h \
-    content.h
+    nikui.h
 
 FORMS += \
         nikui.ui
+
+INCLUDEPATH += C:/Qt/zlib_x86-windows/include
+LIBS += -LC:/Qt/zlib_x86-windows/lib -lz
+INCLUDEPATH += C:/Qt/quazip-0.7.3/quazip-0.7.3/quazip
+LIBS += -LC:/Qt/quazip-0.7.3/quazip-0.7.3/quazip/release -lquazip
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+

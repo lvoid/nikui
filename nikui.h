@@ -56,6 +56,8 @@ private:
     QAction* zoomOutAct;
     QAction* normalSizeAct;
     QAction* fitToWindowAct;
+    QAction* lightMenuAct;
+    QAction* darkMenuAct;
 };
 
 #endif // NIKUI_H

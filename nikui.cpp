@@ -1,6 +1,7 @@
 #include <QtWidgets>
 #include "nikui.h"
 #include "ui_nikui.h"
+#include <quazip.h>
 
 static void initializeImageFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
@@ -11,7 +12,7 @@ Nikui::Nikui() :
     widthFactor = 1.0;
     heightFactor = 1.0;
 
-    imageLabel->setBackgroundRole(QPalette::Base);
+    imageLabel->setBackgroundRole(QPalette::Dark);
     imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     imageLabel->setScaledContents(true);
 
@@ -84,6 +85,57 @@ void Nikui::createActions()
     helpMenu->addAction(tr("&About"), this, &Nikui::about);
 }
 
+/* Initialize the window by displaying the first file */
+void Nikui::initializeView()
+{
+    currentMangaFilePos = 0;
+    setImage(currentMangaFileList.at(0));
+}
+
+/* Called when user navigates back and forth between images */
+void Nikui::setImage(const QImage& newImage)
+{
+    currentImage = newImage;
+    QPixmap pixmap = QPixmap::fromImage(currentImage);
+
+    if(currentMangaFileList.size() > 0)
+    {
+        imageLabel->clear();
+        imageLabel->setPixmap(pixmap.scaled(width() * widthFactor, height() * heightFactor, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        scaleFactor = 1.0;
+    }
+
+    scrollArea->setVisible(true);
+    fitToWindowAct->setEnabled(true);
+    updateActions();
+
+    if (!fitToWindowAct->isChecked()) imageLabel->adjustSize();
+}
+
+void Nikui::prevPage()
+{
+    if(currentMangaFilePos > 0)
+    {
+        currentMangaFilePos--;
+        setImage(currentMangaFileList.at(currentMangaFilePos));
+
+        //reset scroll bar
+        scrollArea->verticalScrollBar()->setValue(0);
+    }
+}
+
+void Nikui::nextPage()
+{
+    if(currentMangaFilePos < currentMangaFileList.size() - 1)
+    {
+        currentMangaFilePos++;
+        setImage(currentMangaFileList.at(currentMangaFilePos));
+
+        //reset scroll bar
+        scrollArea->verticalScrollBar()->setValue(0);
+    }
+}
+
 /* Store all user selected files for access */
 bool Nikui::loadFiles(const QStringList& fileNames)
 {
@@ -105,61 +157,15 @@ bool Nikui::loadFiles(const QStringList& fileNames)
     return true;
 }
 
-/* Initialize the window by displaying the first file */
-void Nikui::initializeView()
-{
-    currentMangaFilePos = 0;
-    setImage(currentMangaFileList.at(0));
-}
-
-/* Called when user navigates back and forth between images */
-void Nikui::setImage(const QImage& newImage)
-{
-    currentImage = newImage;
-    QPixmap pixmap = QPixmap::fromImage(currentImage);
-
-    imageLabel->clear();
-    imageLabel->setPixmap(pixmap.scaled(width() * widthFactor, height() * heightFactor, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    scaleFactor = 1.0;
-
-    scrollArea->setVisible(true);
-    fitToWindowAct->setEnabled(true);
-    updateActions();
-
-    if (!fitToWindowAct->isChecked()) imageLabel->adjustSize();
-}
-
-void Nikui::prevPage()
-{
-    if(currentMangaFilePos > 0)
-    {
-        currentMangaFilePos--;
-        setImage(currentMangaFileList.at(currentMangaFilePos));
-    }
-
-    //reset scroll bar
-    scrollArea->verticalScrollBar()->setValue(0);
-}
-
-void Nikui::nextPage()
-{
-    if(currentMangaFilePos < currentMangaFileList.size() - 1)
-    {
-        currentMangaFilePos++;
-        setImage(currentMangaFileList.at(currentMangaFilePos));
-    }
-
-    //reset scroll bar
-    scrollArea->verticalScrollBar()->setValue(0);
-}
-
 void Nikui::open()
 {
     QFileDialog dialog(this, tr("Open File"));
 
     const QStringList mangaLocation = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
     dialog.setDirectory(mangaLocation.isEmpty() ? QDir::currentPath() : mangaLocation.last());
-    QStringList fileList = dialog.getOpenFileNames(this, tr("JPG files"),QDir::currentPath(), tr("Jpeg files (*.jpg);;All files (*.*)"));
+    QStringList fileList = dialog.getOpenFileNames(this, tr("Select File(s)"),QDir::currentPath(), tr("JPEG files (*.jpg);;PNG files (*.png);;CBZ files (*.cbz);;All files (*.*)"));
+
+    if(fileList.size() == 1)
 
     loadFiles(fileList);
 }
