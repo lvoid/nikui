@@ -1,6 +1,6 @@
 ## TODO:
 
-* Create splash screen
+* When user scrolls to bottom far enough, it goes to next page.  Same with scrolling to top.
 * Create navigation buttons
 * Insert project icon
 * Add support for recent files
