@@ -18,7 +18,8 @@ class Nikui : public QMainWindow
 public:
    Nikui();
     ~Nikui();
-   bool loadFiles(const QStringList&);
+   bool loadImageFiles(const QStringList&);
+   bool loadCbzFile(QString);
    void initializeView();
 
 private slots:

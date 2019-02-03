@@ -1,9 +1,19 @@
 #include <QtWidgets>
 #include "nikui.h"
 #include "ui_nikui.h"
+#include <dependencies/zlib/include/zlib.h>
 #include <quazip.h>
+#include <quazipfile.h>
+#include <JlCompress.h>
+#include <quazipdir.h>
 
 static void initializeImageFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
+
+const QString CBZ_FILE = ".cbz";
+const QString PDF_FILE = ".pdf";
+const QString JPG_FILE = ".jpg";
+const QString JPEG_FILE = ".jpeg";
+const QString PNG_FILE = ".png";
 
 Nikui::Nikui() :
     imageLabel(new QLabel),
@@ -136,8 +146,73 @@ void Nikui::nextPage()
     }
 }
 
+void Nikui::open()
+{
+    QFileDialog dialog(this, tr("Open File"));
+
+    const QStringList mangaLocation = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+    dialog.setDirectory(mangaLocation.isEmpty() ? QDir::currentPath() : mangaLocation.last());
+    QStringList fileList = dialog.getOpenFileNames(this, tr("Select File(s)"),QDir::currentPath(), tr("JPEG files (*.jpg);;PNG files (*.png);;CBZ files (*.cbz)"));
+
+    //TODO:
+    //later on handle the case where multiple files are selected but they're cbz or pdf?
+    //maybe I can just open up the first file if they select multiple PDF or CBZ by mistake?
+
+    QString selectedFile = fileList[0];
+    QString selectedFileExtension = selectedFile.mid(selectedFile.lastIndexOf("."));
+    if(fileList.size() == 1) //file list size == 1 means we've opened a .cbz or .pdf
+    {
+        if(selectedFileExtension == CBZ_FILE)
+        {
+            loadCbzFile(selectedFile);
+        }
+        else if(selectedFileExtension == PDF_FILE)
+        {
+            //TODO: HANDLE PDF FILE
+        }
+    }
+    else if(fileList.size() > 1) //opened images
+    {
+        if(selectedFileExtension == JPG_FILE || selectedFileExtension == PNG_FILE)
+        {
+            loadImageFiles(fileList);
+        }
+    }
+}
+
+bool Nikui::loadCbzFile(QString cbzFile)
+{
+    if(currentMangaFileList.size() > 0) currentMangaFileList.clear(); // user reopening - clear list
+
+    QuaZip zip(cbzFile);
+    zip.open(QuaZip::mdUnzip);
+
+    const QStringList cbzFileList = zip.getFileNameList();
+    QStringList extractedCbzFiles =  JlCompress::extractFiles( cbzFile, cbzFileList);
+
+    QImage newImage;
+    for(int file = 0; file < extractedCbzFiles.size(); file++)
+    {
+        bool fileHasImageExtension = extractedCbzFiles[file].mid(extractedCbzFiles[file].lastIndexOf(".")) == ".jpg" ||
+                extractedCbzFiles[file].mid(extractedCbzFiles[file].lastIndexOf(".")) == ".png";
+        if(fileHasImageExtension)
+        {
+            QImageReader reader(extractedCbzFiles[file]);
+            newImage = reader.read();
+            if(newImage.isNull()) return false;
+
+            currentMangaFileList.push_back(newImage);
+        }
+    }
+
+    initializeView(); // set position in list to 1 and display first
+                      // image from the list
+
+    return true;
+}
+
 /* Store all user selected files for access */
-bool Nikui::loadFiles(const QStringList& fileNames)
+bool Nikui::loadImageFiles(const QStringList& fileNames)
 {
     if(currentMangaFileList.size() > 0) currentMangaFileList.clear(); // user reopening - clear list
 
@@ -155,19 +230,6 @@ bool Nikui::loadFiles(const QStringList& fileNames)
                       // image from the list
 
     return true;
-}
-
-void Nikui::open()
-{
-    QFileDialog dialog(this, tr("Open File"));
-
-    const QStringList mangaLocation = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
-    dialog.setDirectory(mangaLocation.isEmpty() ? QDir::currentPath() : mangaLocation.last());
-    QStringList fileList = dialog.getOpenFileNames(this, tr("Select File(s)"),QDir::currentPath(), tr("JPEG files (*.jpg);;PNG files (*.png);;CBZ files (*.cbz);;All files (*.*)"));
-
-    if(fileList.size() == 1)
-
-    loadFiles(fileList);
 }
 
 void Nikui::zoomIn()

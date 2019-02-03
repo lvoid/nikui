@@ -1,4 +1,3 @@
-
 release/nikui.o
 release/Nikui.exe.debug
 release/Nikui.exe
@@ -6,3 +5,4 @@ release/moc_predefs.h
 release/moc_nikui.o
 release/moc_nikui.cpp
 release/main.o
+dependencies/
