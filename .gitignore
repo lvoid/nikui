@@ -5,4 +5,3 @@ release/moc_predefs.h
 release/moc_nikui.o
 release/moc_nikui.cpp
 release/main.o
-dependencies/
