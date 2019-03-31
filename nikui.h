@@ -2,6 +2,7 @@
 #define NIKUI_H
 
 #include <QMainWindow>
+#include <QPushButton>
 
 class QScrollBar;
 class QLabel;
@@ -40,6 +41,10 @@ private:
     void scaleImage(double factor);
     void adjustScrollBar(QScrollBar* scrollBar, double factor);
     void resizeEvent(QResizeEvent* event);
+    void repositionButtons();
+
+    QPushButton *leftArrowButton;
+    QPushButton *rightArrowButton;
 
     QImage currentImage;
     QLabel* imageLabel;

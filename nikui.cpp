@@ -6,6 +6,9 @@
 #include <quazipfile.h>
 #include <JlCompress.h>
 #include <quazipdir.h>
+#include <QRect>
+#include <QPoint>
+#include <QCommonStyle>
 
 static void initializeImageFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode);
 
@@ -18,7 +21,7 @@ const QString PNG_FILE = ".png";
 Nikui::Nikui() :
     imageLabel(new QLabel),
     scrollArea(new QScrollArea)
-{
+{ 
     widthFactor = 1.0;
     heightFactor = 1.0;
 
@@ -35,6 +38,21 @@ Nikui::Nikui() :
     createActions();
 
     resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
+
+    QHBoxLayout* verticalButtonLayout = new QHBoxLayout;
+
+    QCommonStyle style;
+    leftArrowButton = new QPushButton(this);
+    leftArrowButton->setGeometry(QRect(QPoint(x(), height()/2 - 150/2), QSize(50, 150)));
+    leftArrowButton->setIcon(style.standardIcon(QStyle::SP_ArrowBack));
+
+    rightArrowButton = new QPushButton(this);
+    rightArrowButton->setGeometry(QRect(QPoint(width() - 50, height()/2 - 150/2), QSize(50, 150)));
+    rightArrowButton->setIcon(style.standardIcon(QStyle::SP_ArrowForward));
+
+    verticalButtonLayout->addWidget(leftArrowButton);
+    verticalButtonLayout->addWidget(rightArrowButton);
+
 }
 
 Nikui::~Nikui() {}
@@ -160,6 +178,7 @@ void Nikui::open()
 
     QString selectedFile = fileList[0];
     QString selectedFileExtension = selectedFile.mid(selectedFile.lastIndexOf("."));
+
     if(fileList.size() == 1) //file list size == 1 means we've opened a .cbz or .pdf
     {
         if(selectedFileExtension == CBZ_FILE)
@@ -280,9 +299,17 @@ void Nikui::adjustScrollBar(QScrollBar *scrollBar, double factor)
 }
 
 /* When window is resized, adjust image to fit new width and height */
+/* Additionally, reposition the buttons on the UI */
 void Nikui::resizeEvent(QResizeEvent* event)
 {
     setImage(currentImage);
+    repositionButtons();
+}
+
+void Nikui::repositionButtons()
+{
+    leftArrowButton->setGeometry(QRect(QPoint(width() - width(), height()/2 - 150/2), QSize(50, 150)));
+    rightArrowButton->setGeometry(QRect(QPoint(width() - 50, height()/2 - 150/2), QSize(50, 150)));
 }
 
 void Nikui::about()
