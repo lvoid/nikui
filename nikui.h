@@ -4,6 +4,7 @@
 #include "models/library/library.h"
 #include "models/reader/reader.h"
 #include "models/settings/settings.h"
+#include "database/database.h"
 
 #include <QObject>
 
@@ -26,6 +27,7 @@ private:
     Reader* m_reader;
     Library* m_library;
     Settings* m_settings;
+    Database* m_database;
 };
 
 #endif // NIKUI_H

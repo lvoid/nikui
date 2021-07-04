@@ -4,6 +4,7 @@ Nikui::Nikui()
 {
     m_reader = new Reader();
     m_library = new Library();
+    m_database = new Database();
 }
 
 Reader* Nikui::reader()

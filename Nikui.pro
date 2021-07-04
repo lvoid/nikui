@@ -18,14 +18,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    database/database.cpp \
     main.cpp \
-    models/library/library.c \
     models/library/library.cpp \
     models/reader/reader.cpp \
     models/settings/settings.cpp \
     nikui.cpp
 
 HEADERS += \
+    database/database.h \
     models/library/library.h \
     models/reader/reader.h \
     models/settings/settings.h \
