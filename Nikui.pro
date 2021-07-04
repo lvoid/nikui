@@ -19,9 +19,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    models/library/library.c \
+    models/library/library.cpp \
+    models/reader/reader.cpp \
+    models/settings/settings.cpp \
     nikui.cpp
 
 HEADERS += \
+    models/library/library.h \
+    models/reader/reader.h \
+    models/settings/settings.h \
     nikui.h
 
 # Default rules for deployment.
