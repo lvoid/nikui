@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>res/qml/nikui.qml</file>
+        <file>res/icons/splash.png</file>
+        <file>res/icons/logo.png</file>
     </qresource>
 </RCC>

@@ -29,10 +29,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    res/config/something.txt \
-    res/icons/something.txt \
-    res/qml/nikui.qml
+DISTFILES +=
 
 RESOURCES += \
     qml.qrc

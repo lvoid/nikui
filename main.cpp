@@ -5,11 +5,19 @@
 #include <QDateTime>
 #include <QTextStream>
 #include <QQmlApplicationEngine>
-#include <QGuiApplication>
 #include <QScopedPointer>
 #include <QQmlContext>
+#include <QPixmap>
+#include <QSplashScreen>
+#include <QIcon>
 
 const QString logDirectory = "logs";
+
+void delay(){
+    QTime dieTime= QTime::currentTime().addSecs(2);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
 
 static void createLoggingDirectory() {
     if(!QDir(logDirectory).exists()) {
@@ -76,12 +84,13 @@ int main(int argc, char *argv[])
 {
     createLoggingDirectory();
 
+    QApplication app(argc, argv);
+
     QApplication::setApplicationName("Nikui");
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setWindowIcon(QIcon(":/res/icons/logo.png"));
 
     QScopedPointer<Nikui> nikui(new Nikui());
-
-    QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
 
@@ -91,6 +100,12 @@ int main(int argc, char *argv[])
             if (!obj && url == objUrl)
                 QApplication::exit(-1);
         }, Qt::QueuedConnection);
+
+    QPixmap pixmap(":/res/icons/splash.png");
+    QSplashScreen splash(pixmap);
+    splash.show();
+    delay();
+    splash.hide();
 
     engine.rootContext()->setContextProperty("nikui", nikui.data());
     engine.load(url);
