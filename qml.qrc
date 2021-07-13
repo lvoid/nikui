@@ -3,5 +3,11 @@
         <file>res/qml/nikui.qml</file>
         <file>res/icons/splash.png</file>
         <file>res/icons/logo.png</file>
+        <file>res/qml/views/Dashboard.qml</file>
+        <file>res/icons/bookmark.png</file>
+        <file>res/icons/library.png</file>
+        <file>res/icons/open.png</file>
+        <file>res/icons/profile.png</file>
+        <file>res/icons/settings.png</file>
     </qresource>
 </RCC>
