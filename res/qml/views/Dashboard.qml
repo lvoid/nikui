@@ -49,13 +49,15 @@ ColumnLayout {
                     chooseProfilePicDialog.visible = true
                 }
 
+
                 contentItem: Image {
                     id: profilePictureImage
-                    source: "../../icons/logo.png"
+                    source: "../../icons/profile.png"
                     Layout.preferredHeight: 200
                     Layout.preferredWidth: 200
                     anchors.centerIn: parent
 
+                    /* Create circular crop around image icon using profilePicture as mask */
                     fillMode: Image.PreserveAspectCrop
                     layer.enabled: true
                     layer.effect: OpacityMask {
@@ -92,7 +94,7 @@ ColumnLayout {
                     anchors.fill: parent
 
                     onClicked: {
-                        console.log("User clicked on open")
+                        nikuiStackView.push(Qt.resolvedUrl("Reader.qml"))
                     }
                 }
 
@@ -134,7 +136,7 @@ ColumnLayout {
                     anchors.fill: parent
 
                     onClicked: {
-                        console.log("User clicked on continue")
+                        nikuiStackView.push(Qt.resolvedUrl("Reader.qml"))
                     }
                 }
 
@@ -176,7 +178,7 @@ ColumnLayout {
                     anchors.fill: parent
 
                     onClicked: {
-                        console.log("User clicked on library")
+                        nikuiStackView.push(Qt.resolvedUrl("Library.qml"))
                     }
                 }
 
@@ -218,7 +220,7 @@ ColumnLayout {
                     anchors.fill: parent
 
                     onClicked: {
-                        console.log("User clicked on settings")
+                        nikuiStackView.push(Qt.resolvedUrl("Settings.qml"))
                     }
                 }
 

@@ -9,5 +9,7 @@
         <file>res/icons/open.png</file>
         <file>res/icons/profile.png</file>
         <file>res/icons/settings.png</file>
+        <file>res/qml/views/Reader.qml</file>
+        <file>res/qml/views/Library.qml</file>
     </qresource>
 </RCC>
