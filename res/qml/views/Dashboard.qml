@@ -2,6 +2,8 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Dialogs 1.0
+import QtGraphicalEffects 1.0
 
 ColumnLayout {
     Layout.alignment: Layout.Center
@@ -34,13 +36,43 @@ ColumnLayout {
             spacing: 15
 
             RoundButton {
-                height: 150
+                id: profilePicture
+                height: 200
                 width: height
-                icon.source: "../../icons/profile.png"
-                icon.height: 150
-                icon.width: 150
+                Layout.preferredHeight: 200
+                Layout.preferredWidth: 200
 
                 Layout.alignment: Layout.Center
+
+
+                onClicked: {
+                    chooseProfilePicDialog.visible = true
+                }
+
+                contentItem: Image {
+                    id: profilePictureImage
+                    source: "../../icons/logo.png"
+                    Layout.preferredHeight: 200
+                    Layout.preferredWidth: 200
+                    anchors.centerIn: parent
+
+                    fillMode: Image.PreserveAspectCrop
+                    layer.enabled: true
+                    layer.effect: OpacityMask {
+                        maskSource: profilePicture
+                    }
+                }
+
+                FileDialog {
+                    id: chooseProfilePicDialog
+                    visible: false
+
+                    onAccepted: {
+                        profilePictureImage.source = chooseProfilePicDialog.fileUrl
+                    }
+
+                    nameFilters: ["Image (*.png *.jpeg *.jpg)"]
+                }
             }
 
             Button {
