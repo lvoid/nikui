@@ -11,5 +11,10 @@
         <file>res/icons/settings.png</file>
         <file>res/qml/views/Reader.qml</file>
         <file>res/qml/views/Library.qml</file>
+        <file>res/icons/tg.jpg</file>
+        <file>res/qml/items/ReaderButton.qml</file>
+        <file>res/icons/dictionary.png</file>
+        <file>res/icons/zoom_in.png</file>
+        <file>res/icons/zoom_out.png</file>
     </qresource>
 </RCC>

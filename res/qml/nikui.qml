@@ -34,6 +34,12 @@ ApplicationWindow {
     property int dashboardButtonWidth: 500
     property int dashboardButtonRadius: 15
 
+    /* Reader properties */
+    property int readerButtonSize: 150
+    property int readerButtonIconSize: 100
+    property string readerButtonColor: dashboardButtonColor
+    property string readerButtonColor_pressed: dashboardButtonColor_pressed
+
     ColumnLayout {
         id: dashboardColumnLayout
         anchors.fill: parent

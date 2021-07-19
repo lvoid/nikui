@@ -14,11 +14,28 @@ ColumnLayout {
 
         /* Gallery area */
         ColumnLayout {
+
             Rectangle {
+                id: galleryRectangle
                 color: "white"
                 radius: 15
-                height: 700
-                width: 500
+                Layout.preferredHeight: 700
+                Layout.preferredWidth: 500
+
+                Image {
+                    id: galleryImage
+                    source: "../../icons/tg.jpg"
+                    height: parent.height
+                    width: parent.width
+                    anchors.centerIn: parent
+
+                    /* Create circular crop around image icon using profilePicture as mask */
+                    fillMode: Image.PreserveAspectCrop
+                    layer.enabled: true
+                    layer.effect: OpacityMask {
+                        maskSource: galleryRectangle
+                    }
+                }
             }
         }
 
