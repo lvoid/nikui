@@ -24,7 +24,7 @@ ApplicationWindow {
 
     /* Dashboard properties */
     property string dashboardBackgroundColor: "#E1E1E1"
-    property string dashboardButtonColor: "#75f2ff"
+    property string dashboardButtonColor: "#41e8fa"
     property string dashboardButtonColor_pressed: "#219eab"
     property string dashboardButtonTextColor: "#000000"
     property string dashboardButtonFontFamily: "Cambria"
@@ -35,8 +35,11 @@ ApplicationWindow {
     property int dashboardButtonRadius: 15
 
     /* Reader properties */
-    property int readerButtonSize: 150
-    property int readerButtonIconSize: 100
+    property int readerButtonSize: 110
+    property int readerButtonIconSize: 55
+    property int readerButtonSpacing: 20
+    property int readerSwitchTextSize: 20
+    property int readerSwitchRadius: 50
     property string readerButtonColor: dashboardButtonColor
     property string readerButtonColor_pressed: dashboardButtonColor_pressed
 

@@ -20,8 +20,6 @@ RoundButton {
             source: iconPath
             height: readerButtonIconSize
             width: readerButtonIconSize
-            Layout.preferredHeight: readerButtonIconSize
-            Layout.preferredWidth: readerButtonIconSize
             anchors.centerIn: parent
         }
     }
