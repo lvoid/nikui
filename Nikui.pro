@@ -37,7 +37,20 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES +=
 
 RESOURCES += \
     qml.qrc
+
+
+
+unix:!macx: LIBS += -L$$PWD/../../../usr/local/lib/ -lqauzip1-qt5
+
+INCLUDEPATH += $$PWD/../../../usr/local/include/QuaZip-Qt5-1.1
+DEPENDPATH += $$PWD/../../../usr/local/include/QuaZip-Qt5-1.1
+
+unix:!macx: LIBS += -L$$PWD/../../../usr/local/zlib/lib/ -lz
+
+INCLUDEPATH += $$PWD/../../../usr/local/zlib/include
+DEPENDPATH += $$PWD/../../../usr/local/zlib/include
+
+

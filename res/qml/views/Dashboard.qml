@@ -106,12 +106,35 @@ ColumnLayout {
                     sourceSize.height: dashboardButtonIconSize
                 }
 
+                FileDialog {
+                    id: openMangaDialog
+                    visible: false
+                    selectMultiple: true
+
+                    onAccepted: {
+
+                        /* Convert list of URLs to strings before sending them */
+                        var stringList = []
+                        for (var i = 0; i < fileUrls.length; i++) {
+                            stringList.push(fileUrls[i].toString().replace(/^(file:\/{3})/,""))
+                        }
+
+                        nikui.reader.openFiles(stringList)
+
+                        nikuiStackView.push(Qt.resolvedUrl("Reader.qml"))
+                    }
+
+                    nameFilters: [".cbz (*.cbz)",
+                                  ".zip (*.zip)",
+                                  "Image (*.jpg *.png *.jpeg)"]
+                }
+
                 MouseArea {
                     id: openButtonMouseArea
                     anchors.fill: parent
 
                     onClicked: {
-                        nikuiStackView.push(Qt.resolvedUrl("Reader.qml"))
+                        openMangaDialog.open()
                     }
                 }
 
