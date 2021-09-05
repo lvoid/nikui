@@ -8,4 +8,3 @@ Nikui is a minimalistic, intuitive, and modern manga-focused reading desktop app
 - **Qt**: 5.12.8
 - **QuaZip**: v.1.1
 - **zlib** v.1.2.11
-- **CMake**: v.3.21.2
